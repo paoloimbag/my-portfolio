@@ -101,8 +101,8 @@ const App = () => {
   const [showLayers, setShowLayers] = useState(true);
   const canvasRef = useRef();
   const customPositions = {
-    experience: { x: 40, y: 40 },
-    about: { x: FRAME_WIDTH + 80, y: 40 }
+    about: { x: 40, y: 40 },
+    experience: { x: FRAME_WIDTH + 80, y: 40 }
   };
 
   const centerContent = () => {
@@ -129,6 +129,10 @@ const App = () => {
       width,
       height: initialHeight
     });
+    
+    // Trigger scroll to selected frame
+    const event = new CustomEvent('scrollToSection', { detail: { id } });
+    window.dispatchEvent(event);
   };
 
   const handleFrameUpdate = (frame) => {
@@ -167,19 +171,63 @@ const App = () => {
 
   const [currentPage, setCurrentPage] = useState('home');
 
+  const aboutData = {
+    title: "Digital Designer & Problem Solver",
+    intro: "I'm a Digital Designer with over a decade of experience crafting digital experiences and building brands. Based in Toronto, I specialize in UI/UX design, visual design, and branding for businesses worldwide.",
+    quickInfo: [
+      {
+        title: "Experience",
+        description: "10+ years in digital design, working with startups and established brands."
+      },
+      {
+        title: "Expertise",
+        description: "UI/UX Design, Visual Design, Brand Identity, Web Development"
+      },
+      {
+        title: "Location",
+        description: "Based in Toronto, Canada. Working globally."
+      }
+    ],
+    approach: {
+      title: "My Approach",
+      description: "My approach combines aesthetic sensibility with strategic thinking, ensuring that every design not only looks beautiful but also serves its intended purpose effectively. I believe in creating designs that not only catch the eye but also solve real problems."
+    },
+    process: {
+      title: "Work Process",
+      steps: [
+        {
+          number: "01",
+          title: "Research & Strategy",
+          description: "Understanding the problem space and defining clear objectives."
+        },
+        {
+          number: "02",
+          title: "Design & Iterate",
+          description: "Creating solutions and refining through feedback."
+        },
+        {
+          number: "03",
+          title: "Deliver & Support",
+          description: "Implementing solutions and ensuring long-term success."
+        }
+      ]
+    }
+  };
+
   const pages = {
     home: {
       sections: [
+        {
+          id: 'about',
+          label: 'About',
+          icon: IconUser,
+          data: aboutData
+        },
         {
           id: 'experience',
           label: 'Experience',
           icon: IconBriefcase,
           data: workExperience
-        },
-        {
-          id: 'about',
-          label: 'About',
-          icon: IconUser
         }
       ]
     },
@@ -238,7 +286,7 @@ const App = () => {
       <div className="main-column">
         <TopNav 
           currentSection={currentPage === 'home' ? 'Home' : 'Recent Works'}
-          onNavigate={handleToolSelect}
+          onNavigate={handlePageChange}
           zoom={zoom}
           onZoomChange={setZoom}
         />

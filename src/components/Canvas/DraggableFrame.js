@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import ProjectContent from './content/ProjectContent';
 import ExperienceContent from './content/ExperienceContent';
+import AboutContent from './content/AboutContent';
 import './DraggableFrame.css';
 
 const MIN_SIZE = 200;
@@ -154,7 +155,7 @@ const DraggableFrame = ({
       case 'experience':
         return <ExperienceContent data={data} onHeightChange={handleContentHeight} />;
       case 'about':
-        return <div>About Content</div>;
+        return <AboutContent data={data} />;
       default:
         return <div>Default Content</div>;
     }

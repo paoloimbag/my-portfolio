@@ -106,4 +106,10 @@
 .icon-button:hover {
   background: var(--hover-color);
   color: var(--text-primary);
+}
+
+.top-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 } 

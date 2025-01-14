@@ -225,22 +225,32 @@ const Canvas = React.forwardRef(({
       if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
         const rect = container.getBoundingClientRect();
-        const viewportX = rect.width / 2;
-        const viewportY = rect.height / 2;
+        
+        // Get the current center of the viewport
+        const viewportCenterX = rect.width / 2;
+        const viewportCenterY = rect.height / 2;
+        
+        // Calculate the current canvas center position
+        const canvasCenterX = -canvasOffset.x * zoom + viewportCenterX;
+        const canvasCenterY = -canvasOffset.y * zoom + viewportCenterY;
 
         // Calculate the point to zoom towards (use viewport center)
-        const zoomX = viewportX;
-        const zoomY = viewportY;
+        const zoomX = canvasCenterX;
+        const zoomY = canvasCenterY;
 
         const delta = e.deltaY > 0 ? 0.9 : 1.1;
         const newZoom = Math.min(Math.max(zoom * delta, 0.1), 5);
+
+        // Calculate new offset to maintain the center point
+        const newOffsetX = -(zoomX / newZoom - viewportCenterX / newZoom);
+        const newOffsetY = -(zoomY / newZoom - viewportCenterY / newZoom);
 
         onZoomChange(newZoom);
         // Update offset in a single batch with zoom change
         requestAnimationFrame(() => {
           setCanvasOffset(prev => ({
-            x: prev.x - ((zoomX / zoom) * (newZoom - zoom)),
-            y: prev.y - ((zoomY / zoom) * (newZoom - zoom))
+            x: newOffsetX,
+            y: newOffsetY
           }));
         });
       }
@@ -248,7 +258,7 @@ const Canvas = React.forwardRef(({
 
     canvas.addEventListener('wheel', handleWheel, { passive: false });
     return () => canvas.removeEventListener('wheel', handleWheel);
-  }, [zoom, onZoomChange]);
+  }, [zoom, onZoomChange, canvasOffset]);
 
   const handleMouseDown = (e) => {
     if (selectedTool === 'hand' || e.button === 1 || isSpacePressed) {
@@ -288,6 +298,21 @@ const Canvas = React.forwardRef(({
       position: newPosition,
       width: frameWidth,
       height: frameHeight
+    });
+
+    // Scroll selected frame into view
+    requestAnimationFrame(() => {
+      const element = document.querySelector(`[data-section-id="${id}"]`);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const containerRect = containerRef.current.getBoundingClientRect();
+        
+        // Calculate target position (center of viewport)
+        const targetX = (rect.left - containerRect.width / 2 + rect.width / 2) / zoom;
+        const targetY = (rect.top - containerRect.height / 2 + rect.height / 2) / zoom;
+        
+        animateCanvasPosition(targetX, targetY);
+      }
     });
   };
 
