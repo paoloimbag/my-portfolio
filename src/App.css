@@ -1,0 +1,116 @@
+:root {
+  /* Figma Light Theme Colors */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #FFFFFF;
+  --border-color: #E5E5E5;
+  --text-primary: #000000;
+  --text-secondary: #666666;
+  --accent-color: #0066ff;
+  --accent-hover: #0052cc;
+  --hover-color: rgba(0, 0, 0, 0.06);
+  --accent-color-alpha: rgba(0, 102, 255, 0.1);
+  --canvas-bg: #E5E5E5;
+  
+  /* Layout Sizes */
+  --sidebar-width: 48px;
+  --layers-width: 240px;
+  --properties-width: auto;
+  --header-height: 40px;
+  --ruler-size: 20px;
+}
+
+[data-theme='dark'] {
+  --bg-primary: #1E1E1E;
+  --bg-secondary: #252525;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --text-primary: #FFFFFF;
+  --text-secondary: #999999;
+  --hover-color: rgba(255, 255, 255, 0.05);
+  --accent-color: #2684ff;
+  --accent-hover: #0052cc;
+  --accent-color-alpha: rgba(38, 132, 255, 0.15);
+  --canvas-bg: #1E1E1E;
+}
+
+.design-app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+}
+
+/* Tools column */
+.tools-column {
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 100px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Layers column */
+.layers-column {
+  width: var(--layers-width);
+  height: 100vh;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+/* Main column with canvas */
+.main-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100vh;
+  min-width: 0;
+}
+
+/* Properties column */
+.properties-column {
+  width: var(--properties-width);
+  height: 100vh;
+  background-color: var(--bg-secondary);
+  border-left: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+/* Top navigation */
+.top-nav {
+  height: var(--header-height);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background-color: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+}
+
+.tools-panel {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+}

@@ -1,0 +1,49 @@
+.tools-panel {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  padding: 4px 8px;
+  height: 100%;
+  align-items: center;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15),
+              0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.tool-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all 0.1s ease;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.tool-button:hover {
+  background-color: var(--hover-color);
+  color: var(--text-primary);
+}
+
+.tool-button.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.tools-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-color);
+  margin: 0 2px;
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .tools-panel {
+  background: rgba(37, 37, 37, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+} 

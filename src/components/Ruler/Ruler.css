@@ -1,0 +1,110 @@
+.ruler {
+  position: absolute;
+  background-color: var(--bg-secondary);
+  z-index: 100;
+  user-select: none;
+}
+
+.ruler.horizontal {
+  top: 0;
+  left: 20px;
+  right: 0;
+  height: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ruler.vertical {
+  top: 20px;
+  left: 0;
+  bottom: 0;
+  width: 20px;
+  border-right: 1px solid var(--border-color);
+}
+
+.ruler-tick {
+  position: absolute;
+  background-color: var(--border-color);
+}
+
+.ruler.horizontal .ruler-tick {
+  width: 1px;
+  height: 8px;
+  bottom: 0;
+  top: auto;
+}
+
+.ruler.vertical .ruler-tick {
+  height: 1px;
+  width: 8px;
+  right: 0;
+  left: auto;
+}
+
+.ruler-tick-small {
+  position: absolute;
+  background-color: var(--border-color);
+  opacity: 0.5;
+}
+
+.ruler.horizontal .ruler-tick-small {
+  width: 1px;
+  height: 4px;
+  bottom: 0;
+  top: auto;
+}
+
+.ruler.vertical .ruler-tick-small {
+  height: 1px;
+  width: 4px;
+  right: 0;
+  left: auto;
+}
+
+.ruler.horizontal .ruler-tick-medium {
+  height: 6px;
+  bottom: 0;
+  top: auto;
+}
+
+.ruler.vertical .ruler-tick-medium {
+  width: 6px;
+  right: 0;
+  left: auto;
+}
+
+.ruler-number {
+  position: absolute;
+  font-size: 9px;
+  color: var(--text-secondary);
+  user-select: none;
+  font-family: monospace;
+  background-color: var(--bg-secondary);
+  padding: 0 2px;
+  z-index: 1;
+}
+
+.ruler.horizontal .ruler-number {
+  left: 2px;
+  top: 2px;
+  transform: translateY(0);
+  line-height: 1;
+}
+
+.ruler.vertical .ruler-number {
+  right: 2px;
+  top: -4px;
+  transform: rotate(-90deg) translateX(8px);
+  transform-origin: right top;
+}
+
+.ruler-corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 101;
+} 
