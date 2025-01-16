@@ -10,6 +10,7 @@ import LayersPanel from './components/LayersPanel/LayersPanel';
 import PagesPanel from './components/PagesPanel/PagesPanel';
 import PropertiesPanel from './components/PropertiesPanel/PropertiesPanel';
 import ToolsPanel from './components/ToolsPanel/ToolsPanel';
+import MobileNav from './components/MobileNav/MobileNav';
 import './App.css';
 import { sampleProjects } from './data/sampleProjects';
 import ProjectModal from './components/ProjectModal/ProjectModal';
@@ -335,6 +336,10 @@ const App = () => {
           onThemeToggle={toggleTheme}
         />
       </div>
+      <MobileNav 
+        currentPage={currentPage}
+        onPageSelect={handlePageChange}
+      />
     </div>
   );
 };

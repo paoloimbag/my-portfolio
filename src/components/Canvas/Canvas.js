@@ -221,6 +221,74 @@ const Canvas = React.forwardRef(({
     const container = containerRef.current;
     if (!canvas) return;
 
+    // Track touch points to detect multi-touch
+    let touchStartPositions = [];
+    let lastTouchDistance = 0;
+
+    const handleTouchStart = (e) => {
+      // Store initial touch positions
+      touchStartPositions = Array.from(e.touches).map(touch => ({
+        x: touch.clientX,
+        y: touch.clientY
+      }));
+      
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        lastTouchDistance = Math.hypot(
+          touchStartPositions[0].x - touchStartPositions[1].x,
+          touchStartPositions[0].y - touchStartPositions[1].y
+        );
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        
+        // Calculate the change in position for two-finger swipe
+        const currentTouches = Array.from(e.touches).map(touch => ({
+          x: touch.clientX,
+          y: touch.clientY
+        }));
+        
+        // Calculate current distance between touch points for pinch zoom
+        const currentTouchDistance = Math.hypot(
+          currentTouches[0].x - currentTouches[1].x,
+          currentTouches[0].y - currentTouches[1].y
+        );
+        
+        // Calculate zoom change based on pinch gesture
+        if (lastTouchDistance) {
+          const scale = currentTouchDistance / lastTouchDistance;
+          const newZoom = Math.min(Math.max(zoom * scale, 0.1), 5);
+          if (Math.abs(scale - 1) > 0.01) { // Small threshold to prevent tiny zoom changes
+            onZoomChange(newZoom);
+          }
+        }
+        
+        // Calculate average movement of both fingers
+        const dx = ((currentTouches[0].x - touchStartPositions[0].x) + 
+                    (currentTouches[1].x - touchStartPositions[1].x)) / 2;
+        const dy = ((currentTouches[0].y - touchStartPositions[0].y) + 
+                    (currentTouches[1].y - touchStartPositions[1].y)) / 2;
+        
+        // Update canvas position
+        setCanvasOffset(prev => ({
+          x: prev.x + dx / zoom,
+          y: prev.y + dy / zoom
+        }));
+        
+        // Update touch positions for next move
+        touchStartPositions = currentTouches;
+        lastTouchDistance = currentTouchDistance;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      touchStartPositions = [];
+      lastTouchDistance = 0;
+    };
+
     const handleWheel = (e) => {
       if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
@@ -257,7 +325,16 @@ const Canvas = React.forwardRef(({
     };
 
     canvas.addEventListener('wheel', handleWheel, { passive: false });
-    return () => canvas.removeEventListener('wheel', handleWheel);
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvas.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      canvas.removeEventListener('wheel', handleWheel);
+      canvas.removeEventListener('touchstart', handleTouchStart);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchend', handleTouchEnd);
+    };
   }, [zoom, onZoomChange, canvasOffset]);
 
   const handleMouseDown = (e) => {

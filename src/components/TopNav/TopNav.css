@@ -112,4 +112,39 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .layers-column,
+  .properties-column {
+    display: none;
+  }
+
+  .main-column {
+    width: 100%;
+  }
+
+  .top-nav {
+    padding: 0 8px;
+  }
+
+  .top-nav-controls {
+    gap: 4px;
+  }
+
+  .zoom-controls {
+    display: none; /* Hide zoom controls on mobile */
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 10px;
+  }
+
+  .top-nav {
+    height: 40px;
+  }
 } 

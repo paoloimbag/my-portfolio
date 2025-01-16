@@ -42,6 +42,37 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .design-app {
+    flex-direction: column;
+  }
+
+  .layers-column,
+  .properties-column {
+    display: none;
+  }
+
+  .main-column {
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+  }
+
+  .tools-column {
+    bottom: 16px; /* Move tools closer to bottom on mobile */
+  }
+
+  .tools-panel {
+    padding: 2px 4px;
+    gap: 0;
+  }
+
+  .tool-button {
+    width: 28px;
+    height: 28px;
+  }
+}
+
 /* Tools column */
 .tools-column {
   height: 48px;
